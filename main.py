@@ -1,4 +1,5 @@
 import turtle
+import math
 
 screen = turtle.Screen()
 screen.title("Cosmic Blaster")
@@ -66,6 +67,9 @@ screen.onkeypress(move_left, "Left")
 screen.onkeypress(move_right, "Right")
 screen.onkeypress(fire_bullet, "space")
 
+def is_collision(t1, t2):
+    distance = math.sqrt((t1.xcor() - t2.xcor()) ** 2 + (t1.ycor() - t2.ycor()) ** 2)
+    return distance < 25
 while True:
 
     screen.update()
@@ -89,6 +93,13 @@ if enemy.xcor() < -330:
         y = bullet.ycor()
         y += bullet_speed
         bullet.sety(y)
+        
+        if is_collision(bullet, enemy):
+            bullet.hideturtle()
+            bullet_state = "ready"
+            bullet.goto(0, -400)
+
+            enemy.goto(0, 250)
 
         if y > 300:
             bullet.hideturtle()
