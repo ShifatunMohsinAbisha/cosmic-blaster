@@ -34,6 +34,15 @@ enemy.goto(0, 250)
 
 enemy_speed = 2
 
+score = 0
+
+score_pen = turtle.Turtle()
+score_pen.color("white")
+score_pen.penup()
+score_pen.hideturtle()
+score_pen.goto(-330, 260)
+score_pen.write("Score: 0", font=("Arial", 16, "normal"))
+
 def move_left():
     x = player.xcor()
     x -= player_speed
@@ -100,6 +109,10 @@ if enemy.xcor() < -330:
             bullet.goto(0, -400)
 
             enemy.goto(0, 250)
+
+            score += 1
+            score_pen.clear()
+            score_pen.write(f"Score: {score}", font=("Arial", 16, "normal"))
 
         if y > 300:
             bullet.hideturtle()
