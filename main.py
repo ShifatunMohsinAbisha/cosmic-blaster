@@ -25,6 +25,14 @@ bullet.hideturtle()
 bullet_speed = 20
 bullet_state = "ready"
 
+enemy = turtle.Turtle()
+enemy.shape("circle")
+enemy.color("red")
+enemy.penup()
+enemy.goto(0, 250)
+
+enemy_speed = 2
+
 def move_left():
     x = player.xcor()
     x -= player_speed
@@ -61,6 +69,21 @@ screen.onkeypress(fire_bullet, "space")
 while True:
 
     screen.update()
+   
+
+x = enemy.xcor()
+x += enemy_speed
+enemy.setx(x)
+
+if enemy.xcor() > 330:
+    enemy_speed *= -1
+    y = enemy.ycor()
+    enemy.sety(y - 40)
+
+if enemy.xcor() < -330:
+    enemy_speed *= -1
+    y = enemy.ycor()
+    enemy.sety(y - 40)
 
     if bullet_state == "fire":
         y = bullet.ycor()
