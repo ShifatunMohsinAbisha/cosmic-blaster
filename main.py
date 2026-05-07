@@ -88,37 +88,45 @@ def is_collision(t1, t2):
     distance = math.sqrt((t1.xcor() - t2.xcor()) ** 2 + (t1.ycor() - t2.ycor()) ** 2)
     return distance < 25
 while True:
-
     screen.update()
-   
 
-x = enemy.xcor()
-x += enemy_speed
-enemy.setx(x)
+    x = enemy.xcor()
+    x += enemy_speed
+    enemy.setx(x)
 
-if enemy.xcor() > 330:
-    enemy_speed *= -1
-    y = enemy.ycor()
-    enemy.sety(y - 40)
+    if enemy.xcor() > 330:
+        enemy_speed *= -1
+        enemy.sety(enemy.ycor() - 40)
 
-if enemy.xcor() < -330:
-    enemy_speed *= -1
-    y = enemy.ycor()
-    enemy.sety(y - 40)
-    
-if enemy.ycor() < -250:
-    lives -= 1
+    if enemy.xcor() < -330:
+        enemy_speed *= -1
+        enemy.sety(enemy.ycor() - 40)
 
-    lives_pen.clear()
-    lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
+    if enemy.ycor() < -250:
+        lives -= 1
 
-    enemy.goto(0, 250)
+        lives_pen.clear()
+        lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
+
+        enemy.goto(0, 250)
+
+        if lives == 0:
+            enemy.hideturtle()
+            player.hideturtle()
+
+            game_over = turtle.Turtle()
+            game_over.color("red")
+            game_over.hideturtle()
+            game_over.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
+
+            enemy_speed = 0
+            bullet.hideturtle()
 
     if bullet_state == "fire":
         y = bullet.ycor()
         y += bullet_speed
         bullet.sety(y)
-        
+
         if is_collision(bullet, enemy):
             bullet.hideturtle()
             bullet_state = "ready"
