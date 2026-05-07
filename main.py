@@ -1,5 +1,6 @@
 import turtle
 import math
+import random
 
 screen = turtle.Screen()
 screen.title("Cosmic Blaster")
@@ -26,11 +27,15 @@ bullet.hideturtle()
 bullet_speed = 20
 bullet_state = "ready"
 
-enemy = turtle.Turtle()
-enemy.shape("circle")
-enemy.color("red")
-enemy.penup()
-enemy.goto(0, 250)
+enemies = []
+
+for i in range(5):
+    enemy = turtle.Turtle()
+    enemy.shape("circle")
+    enemy.color("red")
+    enemy.penup()
+    enemy.goto(random.randint(-300, 300), random.randint(100, 250))
+    enemies.append(enemy)
 
 enemy_speed = 2
 
@@ -90,53 +95,59 @@ def is_collision(t1, t2):
 while True:
     screen.update()
 
-    x = enemy.xcor()
-    x += enemy_speed
-    enemy.setx(x)
+    for enemy in enemies:
+        x = enemy.xcor()
+        x += enemy_speed
+        enemy.setx(x)
 
-    if enemy.xcor() > 330:
-        enemy_speed *= -1
-        enemy.sety(enemy.ycor() - 40)
+        if enemy.xcor() > 330:
+            enemy_speed *= -1
+            for e in enemies:
+                e.sety(e.ycor() - 40)
 
-    if enemy.xcor() < -330:
-        enemy_speed *= -1
-        enemy.sety(enemy.ycor() - 40)
+        if enemy.xcor() < -330:
+            enemy_speed *= -1
+            for e in enemies:
+                e.sety(e.ycor() - 40)
 
-    if enemy.ycor() < -250:
-        lives -= 1
+        if enemy.ycor() < -250:
+            lives -= 1
 
-        lives_pen.clear()
-        lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
+            lives_pen.clear()
+            lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
 
-        enemy.goto(0, 250)
+            enemy.goto(random.randint(-300, 300), 250)
 
-        if lives == 0:
-            enemy.hideturtle()
-            player.hideturtle()
+            if lives == 0:
+                player.hideturtle()
+                bullet.hideturtle()
 
-            game_over = turtle.Turtle()
-            game_over.color("red")
-            game_over.hideturtle()
-            game_over.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
+                for e in enemies:
+                    e.hideturtle()
 
-            enemy_speed = 0
-            bullet.hideturtle()
+                game_over = turtle.Turtle()
+                game_over.color("red")
+                game_over.hideturtle()
+                game_over.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
+
+                enemy_speed = 0
 
     if bullet_state == "fire":
         y = bullet.ycor()
         y += bullet_speed
         bullet.sety(y)
 
-        if is_collision(bullet, enemy):
-            bullet.hideturtle()
-            bullet_state = "ready"
-            bullet.goto(0, -400)
+        for enemy in enemies:
+            if is_collision(bullet, enemy):
+                bullet.hideturtle()
+                bullet_state = "ready"
+                bullet.goto(0, -400)
 
-            enemy.goto(0, 250)
+                enemy.goto(random.randint(-300, 300), random.randint(100, 250))
 
-            score += 1
-            score_pen.clear()
-            score_pen.write(f"Score: {score}", font=("Arial", 16, "normal"))
+                score += 1
+                score_pen.clear()
+                score_pen.write(f"Score: {score}", font=("Arial", 16, "normal"))
 
         if y > 300:
             bullet.hideturtle()
