@@ -43,6 +43,14 @@ score_pen.hideturtle()
 score_pen.goto(-330, 260)
 score_pen.write("Score: 0", font=("Arial", 16, "normal"))
 
+lives = 3
+
+lives_pen = turtle.Turtle()
+lives_pen.color("white")
+lives_pen.penup()
+lives_pen.hideturtle()
+lives_pen.goto(230, 260)
+lives_pen.write("Lives: 3", font=("Arial", 16, "normal"))
 def move_left():
     x = player.xcor()
     x -= player_speed
@@ -97,6 +105,14 @@ if enemy.xcor() < -330:
     enemy_speed *= -1
     y = enemy.ycor()
     enemy.sety(y - 40)
+    
+if enemy.ycor() < -250:
+    lives -= 1
+
+    lives_pen.clear()
+    lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
+
+    enemy.goto(0, 250)
 
     if bullet_state == "fire":
         y = bullet.ycor()
