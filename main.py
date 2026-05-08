@@ -7,7 +7,17 @@ screen.title("Cosmic Blaster")
 screen.bgcolor("black")
 screen.setup(width=700, height=600)
 screen.tracer(0)
+meteor_shape = (
+    (-10, 15),
+    (5, 20),
+    (18, 8),
+    (14, -10),
+    (0, -18),
+    (-15, -12),
+    (-20, 5)
+)
 
+screen.register_shape("meteor", meteor_shape)
 player = turtle.Turtle()
 player.shape("triangle")
 player.color("cyan")
@@ -31,12 +41,14 @@ enemies = []
 
 for i in range(5):
     enemy = turtle.Turtle()
-    enemy.shape("circle")
-    enemy.color("red")
+    enemy.shape("meteor")
+    enemy.color("gray")
     enemy.penup()
+    enemy.shapesize(random.uniform(1.0, 1.5), random.uniform(1.0, 1.5))
+    enemy.tilt(random.randint(0, 360))
     enemy.goto(random.randint(-300, 300), random.randint(100, 250))
     enemies.append(enemy)
-
+    
 enemy_speed = 2
 
 score = 0
@@ -116,7 +128,7 @@ while True:
             lives_pen.clear()
             lives_pen.write(f"Lives: {lives}", font=("Arial", 16, "normal"))
 
-            enemy.goto(random.randint(-300, 300), 250)
+            enemy.goto(random.randint(-300, 300), random.randint(100, 250))
 
             if lives == 0:
                 player.hideturtle()
