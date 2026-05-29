@@ -18,7 +18,17 @@ meteor_shape = (
     (-20, 5)
 )
 screen.register_shape("meteor", meteor_shape)
-
+stars = []
+for i in range(100):
+    star = turtle.Turtle()
+    star.shape("circle")
+    star.color("white")
+    star.penup()
+    star.hideturtle()
+    star.shapesize(random.uniform(0.05, 0.2))
+    star.goto(random.randint(-350, 350), random.randint(-280, 280))
+    star.showturtle()
+    stars.append(star)
 player = turtle.Turtle()
 player.shape("triangle")
 player.color("cyan")
