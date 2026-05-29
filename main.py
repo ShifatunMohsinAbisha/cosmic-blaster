@@ -138,6 +138,13 @@ while game_running:
 
     for enemy in enemies:
         enemy.sety(enemy.ycor() - 2)
+        dist = math.sqrt((player.xcor() - enemy.xcor()) ** 2 + (player.ycor() - enemy.ycor()) ** 2)
+        if dist < 30:
+            enemy.goto(random.randint(-320, 320), random.randint(200, 280))
+            enemy.tilt(random.randint(0, 360))
+            score += 1
+            score_pen.clear()
+            score_pen.write(f"Score: {score}", font=("Arial", 16, "normal"))
 
         if enemy.ycor() < -270:
             lives -= 1
@@ -150,5 +157,6 @@ while game_running:
                 show_game_over()
                 game_running = False
                 break
+            
 
 turtle.done()
