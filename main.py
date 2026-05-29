@@ -100,13 +100,37 @@ game_over_pen.color("red")
 game_over_pen.penup()
 game_over_pen.hideturtle()
 game_over_pen.goto(0, 0)
+restart_pen = turtle.Turtle()
+restart_pen.color("white")
+restart_pen.penup()
+restart_pen.hideturtle()
+restart_pen.goto(0, -40)
+def restart_game():
+    global score, lives, game_running
+    score = 0
+    lives = 3
+    game_running = True
+    game_over_pen.clear()
+    restart_pen.clear()
+    score_pen.clear()
+    lives_pen.clear()
+    score_pen.write("Score: 0", font=("Arial", 16, "normal"))
+    lives_pen.write("Lives: 3", font=("Arial", 16, "normal"))
+    player.showturtle()
+    player.goto(0, -250)
+    for e in enemies:
+        e.showturtle()
+        e.goto(random.randint(-320, 320), random.randint(200, 280))
+    screen.onclick(click_handler)
 
 def show_game_over():
     player.hideturtle()
     for e in enemies:
         e.hideturtle()
     game_over_pen.write("GAME OVER", align="center", font=("Arial", 30, "bold"))
-
+    restart_pen.goto(0, -40)
+    restart_pen.write("Click here to Restart", align="center", font=("Arial", 18, "normal"))
+    screen.onclick(lambda x, y: restart_game())
 game_running = True
 
 while game_running:
